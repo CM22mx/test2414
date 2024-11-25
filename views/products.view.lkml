@@ -27,6 +27,16 @@ view: products {
     type: number
     sql: ${TABLE}.rank ;;
   }
+  measure: test_liquid {
+    type: number
+    sql: ${rank} ;;
+    html: {% if value < 2000 and count._value > 0 %}
+        <p style="color: red; background-color: lightgreen; font-size:100%; text-align:center">{{ rendered_value }}</p>
+        {% else %}
+        <p style="color: blue; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+        {% endif %};;
+
+  }
   dimension: retail_price {
     type: number
     sql: ${TABLE}.retail_price ;;
