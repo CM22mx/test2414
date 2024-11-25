@@ -25,8 +25,28 @@ view: products {
   }
   dimension: rank {
     type: number
-    sql: ${TABLE}.rank ;;
+    sql: {% if _explore._name == 'products' %} ${TABLE}.rank {% else %} MAX(${TABLE}.rank) {% endif %} ;;
   }
+  measure: test_liquid {
+    type: number
+    sql: ${rank} ;;
+    html: {% if (value < 2000) and (count._value > 0 or count._value==1)  %}
+        <p style="color: red; background-color: lightgreen; font-size:100%; text-align:center">{{ rendered_value }}</p>
+        {% else %}
+        <p style="color: blue; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+        {% endif %};;
+
+  }
+  measure: test_liquid2 {
+    type: number
+    sql: ${rank} ;;
+    html: {% if (rank._value < 2000) and (count._value > 0 or count._value==1) %}
+        <p style="color: red; background-color: lightgreen; font-size:100%; text-align:center">{{ rendered_value }}</p>
+        {% else %}
+        <p style="color: blue; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+        {% endif %};;
+
+    }
   dimension: retail_price {
     type: number
     sql: ${TABLE}.retail_price ;;
